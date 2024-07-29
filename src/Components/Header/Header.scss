@@ -1,0 +1,14 @@
+.header{
+}
+
+.user{
+    margin: 0 30px;
+    &__sign{
+        margin-right: 30px;
+    }
+    &__pic{
+        margin-left: 10px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+}
