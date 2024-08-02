@@ -1,2 +1,2 @@
-import ChangeArticle from "./ChangeArticle";
+import ChangeArticle from './ChangeArticle';
 export default ChangeArticle;

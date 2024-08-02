@@ -1,7 +1,7 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import {format} from 'date-fns';
-import Markdown from 'react-markdown'
+import { format } from 'date-fns';
+import Markdown from 'react-markdown';
 
 import Context from '../Context/Context';
 import './Article.scss';
@@ -10,9 +10,13 @@ export default function Article(el) {
 	const user = useContext(Context);
 	// console.log(user);
 	console.log(el);
-	const {data, single} = el;
+	const { data, single } = el;
 	console.log('article', data, single);
-	let tags = data.tagList.map( (el, i) => (<span key={i} className="tags__item rounded-1">{el}</span>))
+	let tags = data.tagList.map((el, i) => (
+		<span key={i} className="tags__item rounded-1">
+			{el}
+		</span>
+	));
 	return (
 		<article className="article p-4 bg-body">
 			<header className="row">
@@ -23,7 +27,15 @@ export default function Article(el) {
 								{data.title}
 							</Link>
 						</h2>
-						<button type="button" className={ data.favorited ? "btn flex-shrink-0 article__favorite favorite favorite--active" : "btn flex-shrink-0 article__favorite favorite"} disabled={user.profile ? false : true}>
+						<button
+							type="button"
+							className={
+								data.favorited
+									? 'btn flex-shrink-0 article__favorite favorite favorite--active'
+									: 'btn flex-shrink-0 article__favorite favorite'
+							}
+							disabled={user.profile ? false : true}
+						>
 							<svg
 								className="favorite__icon"
 								viewBox="0 0 16 16"
@@ -35,9 +47,7 @@ export default function Article(el) {
 							{data.favoritesCount}
 						</button>
 					</div>
-					<div className="article__tags tags">
-						{tags}
-					</div>
+					<div className="article__tags tags">{tags}</div>
 				</div>
 				<div className="col-md-4 author d-inline-flex justify-content-end align-items-center">
 					<div>
@@ -47,22 +57,23 @@ export default function Article(el) {
 					<img src={data.author.image} className="author__pic" />
 				</div>
 			</header>
-			<div className='row'>
+			<div className="row">
 				<div className="col-md-8 article__content">
 					<p>{data.description}</p>
 				</div>
-				{!!user.profile && single &&
+				{!!user.profile && single && (
 					<div className="col-md-4 text-end article__controls">
-						<button className='btn btn-outline-danger'>Delete</button>
-						<Link to={`/articles/${data.slug}/edit`} className='btn btn-outline-success'>Edit</Link>
+						<button className="btn btn-outline-danger">Delete</button>
+						<Link to={`/articles/${data.slug}/edit`} className="btn btn-outline-success">
+							Edit
+						</Link>
 					</div>
-				}
-				{ single && 
-					<div className='col-md-12'>
+				)}
+				{single && (
+					<div className="col-md-12">
 						<Markdown>{data.body}</Markdown>
 					</div>
-				}
-
+				)}
 			</div>
 		</article>
 	);
