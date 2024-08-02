@@ -1,14 +1,26 @@
-.header{
+.header {
+	background-color: #fff;
+	&__logo-link {
+		text-decoration: none;
+		color: inherit;
+	}
 }
 
-.user{
-    margin: 0 30px;
-    &__sign{
-        margin-right: 30px;
-    }
-    &__pic{
-        margin-left: 10px;
-        object-fit: cover;
-        border-radius: 50%;
-    }
+.profile {
+	padding: 0;
+	margin: 0 30px;
+	&__sign {
+		margin-right: 30px;
+	}
+	&__name {
+		max-width: 120px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	&__pic {
+		margin-left: 10px;
+		object-fit: cover;
+		border-radius: 50%;
+	}
 }

@@ -12,6 +12,11 @@ module.exports = {
 		assetModuleFilename: path.join('images', '[name].[contenthash][ext]'),
 	},
 	module: {
+		parser: {
+			css: {
+				namedExports: true,
+			},
+		},
 		rules: [
 			{
 				test: /\.js$/,
@@ -47,5 +52,6 @@ module.exports = {
 	],
 	devServer: {
 		static: path.resolve(__dirname, 'app'),
+		historyApiFallback: true,
 	},
 };
