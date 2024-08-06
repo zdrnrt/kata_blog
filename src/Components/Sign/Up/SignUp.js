@@ -63,6 +63,25 @@ export default function SignUp(data) {
 					{!!errors.email && <p className="d-block invalid-feedback">Email address is incorrect</p>}
 				</div>
 				<div className="mb-3">
+					<label htmlFor="inputEmail" className="form-label text-body-tertiary">
+						Image
+					</label>
+					<input
+						id="inputEmail"
+						value={edit && context.profile ? context.profile.image : ''}
+						type="email"
+						className={'form-control ' + (!!errors.image && 'is-invalid')}
+						placeholder="Image url"
+						{...register('image', {
+							required: true,
+							pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+							minLength: 3,
+							maxLength: 20,
+						})}
+					/>
+					{!!errors.email && <p className="d-block invalid-feedback">Email address is incorrect</p>}
+				</div>
+				<div className="mb-3">
 					<label htmlFor="inputPassword" className="form-label text-body-tertiary">
 						Password
 					</label>

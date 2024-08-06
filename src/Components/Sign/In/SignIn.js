@@ -11,7 +11,6 @@ export default function SignIn() {
 	} = useForm();
 	const onSubmit = (data) => {
 		console.log(data);
-		// setError('email', { type: 'custom', message: 'custom message' });
 	};
 
 	return (

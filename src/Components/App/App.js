@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, useParams } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -11,14 +11,9 @@ import Provider from '../Context/Provider';
 import SignIn from '../Sign/In/SignIn';
 import SignUp from '../Sign/Up/SignUp';
 import * as API from '../API';
-import ChangeArticle from '../ChangeArticle';
+import FormArticle from '../FormArticle';
 
 function App() {
-	// console.log(API);
-	const request = {
-		offset: 0,
-		limit: 20,
-	};
 	const articleList = {
 		articles: [
 			{
@@ -348,26 +343,30 @@ function App() {
 		],
 		articlesCount: 544,
 	};
-	let [articleRequest, changeArticleRequest] = useState(request);
+	let [articleRequest, changeArticleRequest] = useState({
+		offset: 560,
+		limit: 20,
+	});
 	let [articleListData, changeArticleList] = useState(articleList);
 	// let [articleListData, changeArticleList] = useState(null);
+	let requestString = [];
+	for (let param in articleRequest){
+		requestString.push(`${param}=${articleRequest[param]}`);
+	}
 
 	// useEffect(() => {
-	//   let requestString = [];
-	//   for (let param in request){
-	//       requestString.push(`${param}=${request[param]}`);
-	//   }
 	//   // console.log(requestString.join('&'));
 	//   API.getArticleList(requestString.join('&'))
 	//     .then( (response) => {
-	//       console.log(response, !response.error);
+	//     //   console.log(response, !response.error);
 	//       if (!response.error){
 	//         changeArticleList(response);
 	//       } else {
-	//         console.log(error);
+	//         console.log('API.getArticleList', error);
 	//       }
 	//     })
-	//   }, [])
+	//   }, [articleRequest]);
+
 	return (
 		<Provider>
 			<Router>
@@ -376,15 +375,6 @@ function App() {
 					<main className="app__main">
 						<div className="container">
 							<div className="col-md-9 m-auto pt-5 pb-5">
-								<Route
-									path="/articles/?number=:number"
-									exact={true}
-									render={({ match, location, history }) => (
-										<Content
-											props={{ articleListData, articleRequest, match, location, history }}
-										/>
-									)}
-								></Route>
 								<Route
 									path="/articles/:slug"
 									exact={true}
@@ -401,19 +391,12 @@ function App() {
 										/>
 									)}
 								></Route>
-								{/* <Route
-									path="/articles"
-									exact={true}
-									render={({ match, location, history }) => (
-                    <Content props={{articleListData, articleRequest, match, location, history }} />
-									)}
-								></Route> */}
 								<Route
-									path="/"
+									path={["/", "/articles", "/articles/?number=:number"]}
 									exact={true}
 									render={({ match, location, history }) => (
 										<Content
-											props={{ articleListData, articleRequest, match, location, history }}
+											props={{ articleListData, articleRequest, match, location, history, single: false, changeArticleRequest }}
 										/>
 									)}
 								></Route>
@@ -433,12 +416,34 @@ function App() {
 								<Route
 									path="/new-article"
 									exact={true}
-									render={({ match }) => <ChangeArticle props={{ match }} />}
+									render={({ match, location, history }) => (
+										<FormArticle
+											props={{
+												articleListData,
+												articleRequest,
+												match,
+												location,
+												history,
+												edit: false
+											}}
+										/>
+									)}
 								></Route>
 								<Route
 									path="/article/:slug/edit"
 									exact={true}
-									render={({ match }) => <ChangeArticle props={{ match }} />}
+									render={({ match, location, history }) => (
+										<FormArticle
+											props={{
+												articleListData,
+												articleRequest,
+												match,
+												location,
+												history,
+												edit: true,
+											}}
+										/>
+									)}
 								></Route>
 							</div>
 						</div>

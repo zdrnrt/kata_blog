@@ -1,17 +1,16 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import { format } from 'date-fns';
 import Markdown from 'react-markdown';
 
 import Context from '../Context/Context';
 import './Article.scss';
 
+
 export default function Article(el) {
 	const user = useContext(Context);
-	// console.log(user);
-	console.log(el);
 	const { data, single } = el;
-	console.log('article', data, single);
+	// console.log('article', data, single);
 	let tags = data.tagList.map((el, i) => (
 		<span key={i} className="tags__item rounded-1">
 			{el}
@@ -23,9 +22,11 @@ export default function Article(el) {
 				<div className="col-md-8">
 					<div className="article__title d-inline-flex justify-content-start align-items-center flex-grow-1">
 						<h2 className="m-0">
+						{ !single ? (
 							<Link to={`/articles/${data.slug}`} className="article__link">
 								{data.title}
 							</Link>
+						) : data.title }
 						</h2>
 						<button
 							type="button"
