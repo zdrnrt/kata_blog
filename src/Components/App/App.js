@@ -344,28 +344,28 @@ function App() {
 		articlesCount: 544,
 	};
 	let [articleRequest, changeArticleRequest] = useState({
-		offset: 560,
+		offset: 0,
 		limit: 20,
 	});
-	let [articleListData, changeArticleList] = useState(articleList);
+	let [articleListData, changeArticleList] = useState(null);
 	// let [articleListData, changeArticleList] = useState(null);
 	let requestString = [];
-	for (let param in articleRequest){
+	for (let param in articleRequest) {
 		requestString.push(`${param}=${articleRequest[param]}`);
 	}
 
-	// useEffect(() => {
-	//   // console.log(requestString.join('&'));
-	//   API.getArticleList(requestString.join('&'))
-	//     .then( (response) => {
-	//     //   console.log(response, !response.error);
-	//       if (!response.error){
-	//         changeArticleList(response);
-	//       } else {
-	//         console.log('API.getArticleList', error);
-	//       }
-	//     })
-	//   }, [articleRequest]);
+	useEffect(() => {
+	  // console.log(requestString.join('&'));
+	  API.getArticleList(requestString.join('&'))
+	    .then( (response) => {
+	    //   console.log(response, !response.error);
+	      if (!response.error){
+	        changeArticleList(response);
+	      } else {
+	        console.log('API.getArticleList', error);
+	      }
+	    })
+	  }, [articleRequest]);
 
 	return (
 		<Provider>
@@ -392,11 +392,19 @@ function App() {
 									)}
 								></Route>
 								<Route
-									path={["/", "/articles", "/articles/?number=:number"]}
+									path={['/', '/articles', '/articles/number/:number']}
 									exact={true}
 									render={({ match, location, history }) => (
 										<Content
-											props={{ articleListData, articleRequest, match, location, history, single: false, changeArticleRequest }}
+											props={{
+												articleListData,
+												articleRequest,
+												match,
+												location,
+												history,
+												single: false,
+												changeArticleRequest,
+											}}
 										/>
 									)}
 								></Route>
@@ -424,7 +432,7 @@ function App() {
 												match,
 												location,
 												history,
-												edit: false
+												edit: false,
 											}}
 										/>
 									)}

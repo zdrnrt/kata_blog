@@ -23,7 +23,7 @@ export function postArticle(request) {
 	const options = {
 		method: 'POST',
 		Authorization: request.api_key,
-		body: request.body
+		body: request.body,
 	};
 	return fetch('https://blog.kata.academy/api/articles/', options)
 		.then((response) => response.json())
@@ -55,42 +55,37 @@ export function deleteArticle(slug) {
 		.catch((error) => {
 			error: error;
 		});
-
 }
 
 export function postRateArticle() {
 	console.log('postRateArticle');
-};
+}
 
 export function loginUser(user) {
-	console.log('loginUser');
 	const options = {
 		method: 'POST',
-		body: user
+		body: JSON.stringify({'user': user})
 	};
+	console.log('loginUser', options);
 	return fetch('https://blog.kata.academy/api/users/login', options)
 		.then((response) => response.json())
-		.catch((error) => {
-			error: error;
-		});
+		.catch((error) => ({ error: error }));
 }
-export function registerUser() {
-	console.log('registerUser');
+export function registerUser(user) {
 	const options = {
 		method: 'POST',
-		body: user
+		body: JSON.stringify({'user': user})
 	};
+	console.log('registerUser', options);
 	return fetch('https://blog.kata.academy/api/users', options)
 		.then((response) => response.json())
-		.catch((error) => {
-			error: error;
-		});
+		.catch((error) => ({ error: error }));
 }
 export function updateUser() {
 	console.log('registerUser');
 	const options = {
 		method: 'PUT',
-		body: user
+		body: user,
 	};
 	return fetch('https://blog.kata.academy/api/user', options)
 		.then((response) => response.json())

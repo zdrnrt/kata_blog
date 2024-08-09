@@ -6,7 +6,6 @@ import Markdown from 'react-markdown';
 import Context from '../Context/Context';
 import './Article.scss';
 
-
 export default function Article(el) {
 	const user = useContext(Context);
 	const { data, single } = el;
@@ -22,11 +21,13 @@ export default function Article(el) {
 				<div className="col-md-8">
 					<div className="article__title d-inline-flex justify-content-start align-items-center flex-grow-1">
 						<h2 className="m-0">
-						{ !single ? (
-							<Link to={`/articles/${data.slug}`} className="article__link">
-								{data.title}
-							</Link>
-						) : data.title }
+							{!single ? (
+								<Link to={`/articles/${data.slug}`} className="article__link">
+									{data.title}
+								</Link>
+							) : (
+								data.title
+							)}
 						</h2>
 						<button
 							type="button"

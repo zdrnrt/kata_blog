@@ -1,8 +1,12 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, setError } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
+import Provider from '../../Context/Provider';
+import * as API from '../../API';
+
 export default function SignIn() {
+	console.log(API);
 	const {
 		register,
 		formState: { errors },
@@ -10,7 +14,14 @@ export default function SignIn() {
 		setError,
 	} = useForm();
 	const onSubmit = (data) => {
-		console.log(data);
+		console.log('onSubmit data', data);
+		API.loginUser(data)
+			.then((response) => {
+				console.log('API.loginUser', response);
+				if (response.errors) {
+					setError('email', response.errors.message )
+				}
+			})
 	};
 
 	return (
@@ -31,6 +42,7 @@ export default function SignIn() {
 						className={'form-control ' + (!!errors.email && 'is-invalid')}
 						id="inputEmail"
 						placeholder="Email address"
+						// Value="testtesttest@m.ee"
 						{...register('email', {
 							required: true,
 							pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -38,7 +50,7 @@ export default function SignIn() {
 							maxLength: 20,
 						})}
 					/>
-					{!!errors.email && <p className="d-block invalid-feedback">Email address is incorrect</p>}
+					{!!errors.email && <p className="d-block invalid-feedback">{errors.email.message || 'Email address is incorrect'}</p>}
 				</div>
 				<div className="mb-3">
 					<label htmlFor="inputPassword" className="form-label text-body-tertiary">
@@ -49,6 +61,7 @@ export default function SignIn() {
 						className={'form-control ' + (!!errors.password && 'is-invalid')}
 						id="inputPassword"
 						placeholder="Password"
+						// value="123123123"
 						{...register('password', { required: true, minLength: 6, maxLength: 40 })}
 					/>
 					{!!errors.password && <p className="d-block invalid-feedback">Password is incorrect</p>}

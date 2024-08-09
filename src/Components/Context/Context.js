@@ -1,11 +1,13 @@
 import { createContext } from 'react';
 
 export default createContext(
-	// null
-	{
-		username: 'test682',
-		email: 'jake@jake.jake',
-		image: 'https://i0.wp.com/cojo.ru/wp-content/uploads/2022/12/pepe-retroveiv-3.webp?ssl=1',
-		token: 'jwt.token.here',
-	}
+	null
+	// {
+	// 	"user": {
+	// 		"username": "testtesttest",
+	// 		"email": "testtesttest@m.ee",
+	// 		"passwoer": "123123123",
+	// 		"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YjRlYzlmZWYwMzkxMWIwMGFlZWViNSIsInVzZXJuYW1lIjoidGVzdHRlc3R0ZXN0IiwiZXhwIjoxNzI4MzE3MDg3LCJpYXQiOjE3MjMxMzMwODd9.Ss1UG7U3qXLtyjwWwbOByaoMF_K7hFUHda6oNi0tIPA"
+	// 	}
+	// }
 );

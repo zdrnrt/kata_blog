@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import Context from '../../Context/Context';
 
+import * as API from '../../API';
+
 export default function SignUp(data) {
 	const context = useContext(Context);
 	const edit = data.props.match.path == '/profile';
@@ -18,6 +20,13 @@ export default function SignUp(data) {
 			// console.log('error');
 			return;
 		}
+		API.registerUser(data)
+			.then((response) => {
+				console.log('API.loginUser', response);
+				if (response.errors) {
+					setError('email', response.errors.message )
+				}
+			})
 		console.log(data);
 	};
 	// {
@@ -35,7 +44,7 @@ export default function SignUp(data) {
 					</label>
 					<input
 						id="inputUser"
-						value={edit && context.profile ? context.profile.username : ''}
+						defaultValue={edit && context.profile ? context.profile.username : ''}
 						type="text"
 						className={'form-control ' + (!!errors.username && 'is-invalid')}
 						placeholder="Username"
@@ -49,7 +58,7 @@ export default function SignUp(data) {
 					</label>
 					<input
 						id="inputEmail"
-						value={edit && context.profile ? context.profile.email : ''}
+						defaultValue={edit && context.profile ? context.profile.email : ''}
 						type="email"
 						className={'form-control ' + (!!errors.email && 'is-invalid')}
 						placeholder="Email address"
@@ -62,25 +71,23 @@ export default function SignUp(data) {
 					/>
 					{!!errors.email && <p className="d-block invalid-feedback">Email address is incorrect</p>}
 				</div>
-				<div className="mb-3">
-					<label htmlFor="inputEmail" className="form-label text-body-tertiary">
+				{ edit && <div className="mb-3">
+					<label htmlFor="inputImage" className="form-label text-body-tertiary">
 						Image
 					</label>
 					<input
-						id="inputEmail"
-						value={edit && context.profile ? context.profile.image : ''}
-						type="email"
+						id="inputImage"
+						defaultValue={edit && context.profile ? context.profile.image : ''}
+						type="text"
 						className={'form-control ' + (!!errors.image && 'is-invalid')}
 						placeholder="Image url"
 						{...register('image', {
-							required: true,
-							pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-							minLength: 3,
-							maxLength: 20,
+							minLength: 3
 						})}
 					/>
-					{!!errors.email && <p className="d-block invalid-feedback">Email address is incorrect</p>}
+					{!!errors.image && <p className="d-block invalid-feedback">Image url is incorrect</p>}
 				</div>
+				}
 				<div className="mb-3">
 					<label htmlFor="inputPassword" className="form-label text-body-tertiary">
 						Password
