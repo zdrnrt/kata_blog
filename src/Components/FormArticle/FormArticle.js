@@ -11,7 +11,7 @@ export default function FormArticle({ props }) {
 		return (
 			<div className="row tag" data-number={number} style={{ marginBlockEnd: '20px' }}>
 				<div className="col-md-5">
-					<input className="form-control" defaultValue={value} disabled />
+					<input className="form-control text-body-tertiary" defaultValue={value} disabled />
 				</div>
 				<div className="col-md-2">
 					<button
@@ -112,15 +112,15 @@ export default function FormArticle({ props }) {
 	});
 	return (
 		<div className="pt-5 p-4 pb-5 bg-white">
-			<h1 className="text-center fs-4">{edit ? 'Edit article' : 'Create new article'} </h1>
+			<h1 className="mb-2 text-center fs-4">{edit ? 'Edit article' : 'Create new article'} </h1>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<div className="mb-3">
-					<label htmlFor="inputTitle" className="form-label text-body-tertiary">
+					<label htmlFor="inputTitle" className="form-label">
 						Title
 					</label>
 					<input
 						id="inputTitle"
-						className={'form-control ' + (!!errors.title && 'is-invalid')}
+						className={'form-control text-body-tertiary ' + (!!errors.title && 'is-invalid')}
 						type="text"
 						placeholder="Title"
 						name="title"
@@ -133,12 +133,12 @@ export default function FormArticle({ props }) {
 					{!!errors.title && <p className="d-block invalid-feedback">Title is incorrect</p>}
 				</div>
 				<div className="mb-3">
-					<label htmlFor="inputDescription" className="form-label text-body-tertiary">
+					<label htmlFor="inputDescription" className="form-label">
 						Description
 					</label>
 					<input
 						id="inputDescription"
-						className={'form-control ' + (!!errors.description && 'is-invalid')}
+						className={'form-control text-body-tertiary ' + (!!errors.description && 'is-invalid')}
 						type="text"
 						placeholder="Description"
 						name="description"
@@ -151,12 +151,12 @@ export default function FormArticle({ props }) {
 					{!!errors.title && <p className="d-block invalid-feedback">Title is incorrect</p>}
 				</div>
 				<div className="mb-3">
-					<label htmlFor="inputBody" className="form-label text-body-tertiary">
+					<label htmlFor="inputBody" className="form-label">
 						Text
 					</label>
 					<textarea
 						id="inputBody"
-						className={'form-control ' + (!!errors.text && 'is-invalid')}
+						className={'form-control text-body-tertiary ' + (!!errors.text && 'is-invalid')}
 						placeholder="Text"
 						name="body"
 						rows="10"
@@ -169,13 +169,13 @@ export default function FormArticle({ props }) {
 					{!!errors.text && <p className="d-block invalid-feedback">Text must be not empty</p>}
 				</div>
 				<div className="mb-3">
-					<label htmlFor="inputPasswordR" className="form-label text-body-tertiary">
+					<label htmlFor="inputPasswordR" className="form-label">
 						Tags
 					</label>
 					{tagList}
 					<div className="row tag">
 						<div className="col-md-5">
-							<input className="form-control" placeholder="tag" name="tag" {...register('tag')} />
+							<input className="form-control text-body-tertiary" placeholder="tag" name="tag" {...register('tag')} />
 						</div>
 						{/* <div className='col-md-2'><button className='btn btn-outline-danger w-100' type='button'>Delete</button></div> */}
 						<div className="col-md-2">

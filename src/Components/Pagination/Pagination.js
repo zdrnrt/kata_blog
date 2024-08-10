@@ -1,19 +1,32 @@
 import React, { act } from 'react';
 import { Link } from 'react-router-dom/';
 
-function PaginationItem({ data }) {
+function PaginationItem({ data, action }) {
 	return (
 		<li className={`mt-0 mb-0 m-1 page-item ${data.active && 'active'}`}>
-			<Link className="page-link" to={`/articles/number/${data.i}/`} aria-label="Previous">
+			<Link 
+				className="page-link" 
+				to={`/articles/number/${data.i}/`} 
+				data-number={data.i}
+				aria-label="Previous" 
+				onClick={ (e) => { 
+					action( 
+						(data) => {
+							console.log(e.target.closest('[data-number]'));
+							console.log(data.limit, e.target.closest('[data-number]').dataset.number, Number(e.target.closest('[data-number]').dataset.number));
+							return {...data, offset: (data.limit * Number(e.target.closest('[data-number]').dataset.number)) };
+						}
+					)
+				}}
+			>
 				<span aria-hidden="true">{data.i}</span>
 			</Link>
 		</li>
 	);
 }
 
-export default function Pagination({ props }) {
+export default function Pagination({ props, action }) {
 	const { count, active } = props;
-	console.log('pagination', props)
 	let size = 5,
 		start,
 		finish,
@@ -26,13 +39,13 @@ export default function Pagination({ props }) {
 		finish = count + 1;
 	}
 	for (let i = start; i < finish; i++) {
-		paginationList.push(<PaginationItem key={i} data={{ i, active: active == i }} />);
+		paginationList.push(<PaginationItem key={i} data={{ i, active: active == i }} action={action} />);
 	}
 	return (
 		<nav aria-label="Articles navigation" className="mt-3">
 			<ul className="pagination justify-content-center mb-0">
 				<li className={`page-item ${active == 1 && 'disabled'}`}>
-					<Link className="page-link" to="/" aria-label="Previous">
+					<Link className="page-link" to={`/articles/number/${active != 1 ? active - 1 : 1}/`} aria-label="Previous" onClick={() => action( (data) => {return {...data, offset: 0};})}>
 						<span aria-hidden="true">&laquo;</span>
 					</Link>
 				</li>
@@ -42,6 +55,7 @@ export default function Pagination({ props }) {
 						className="page-link"
 						to={`/articles/number/${active != count ? active + 1 : active}/`}
 						aria-label="Next"
+						onClick={() => action( (data) => { return {...data, offset: (data.offset + data.limit)};})}
 					>
 						<span aria-hidden="true">&raquo;</span>
 					</Link>

@@ -20,13 +20,12 @@ export default function SignUp(data) {
 			// console.log('error');
 			return;
 		}
-		API.registerUser(data)
-			.then((response) => {
-				console.log('API.loginUser', response);
-				if (response.errors) {
-					setError('email', response.errors.message )
-				}
-			})
+		API.registerUser(data).then((response) => {
+			console.log('API.loginUser', response);
+			if (response.errors) {
+				setError('email', response.errors.message);
+			}
+		});
 		console.log(data);
 	};
 	// {
@@ -36,31 +35,31 @@ export default function SignUp(data) {
 	// }
 	return (
 		<div className="col-md-6 m-auto p-3 bg-white">
-			<h1 className="text-center">{edit ? 'Edit Profile' : 'Create new account'} </h1>
+			<h1 className="mb-2 text-center fs-4">{edit ? 'Edit Profile' : 'Create new account'} </h1>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<div className="mb-3">
-					<label htmlFor="inputUser" className="form-label text-body-tertiary">
+					<label htmlFor="inputUser" className="form-label">
 						Username
 					</label>
 					<input
 						id="inputUser"
-						defaultValue={edit && context.profile ? context.profile.username : ''}
+						defaultValue={edit && context.profile ? context.profile.user.username : ''}
 						type="text"
-						className={'form-control ' + (!!errors.username && 'is-invalid')}
+						className={'form-control text-body-tertiary ' + (!!errors.username && 'is-invalid')}
 						placeholder="Username"
 						{...register('username', { required: true, minLength: 3, maxLength: 20 })}
 					/>
 					{!!errors.username && <p className="d-block invalid-feedback">Username is incorrect</p>}
 				</div>
 				<div className="mb-3">
-					<label htmlFor="inputEmail" className="form-label text-body-tertiary">
+					<label htmlFor="inputEmail" className="form-label">
 						Email address
 					</label>
 					<input
 						id="inputEmail"
-						defaultValue={edit && context.profile ? context.profile.email : ''}
+						defaultValue={edit && context.profile ? context.profile.user.email : ''}
 						type="email"
-						className={'form-control ' + (!!errors.email && 'is-invalid')}
+						className={'form-control text-body-tertiary ' + (!!errors.email && 'is-invalid')}
 						placeholder="Email address"
 						{...register('email', {
 							required: true,
@@ -71,30 +70,31 @@ export default function SignUp(data) {
 					/>
 					{!!errors.email && <p className="d-block invalid-feedback">Email address is incorrect</p>}
 				</div>
-				{ edit && <div className="mb-3">
-					<label htmlFor="inputImage" className="form-label text-body-tertiary">
-						Image
-					</label>
-					<input
-						id="inputImage"
-						defaultValue={edit && context.profile ? context.profile.image : ''}
-						type="text"
-						className={'form-control ' + (!!errors.image && 'is-invalid')}
-						placeholder="Image url"
-						{...register('image', {
-							minLength: 3
-						})}
-					/>
-					{!!errors.image && <p className="d-block invalid-feedback">Image url is incorrect</p>}
-				</div>
-				}
+				{edit && (
+					<div className="mb-3">
+						<label htmlFor="inputImage" className="form-label">
+							Image
+						</label>
+						<input
+							id="inputImage"
+							defaultValue={edit && context.profile ? context.profile.user.image : ''}
+							type="text"
+							className={'form-control text-body-tertiary ' + (!!errors.image && 'is-invalid')}
+							placeholder="Image url"
+							{...register('image', {
+								minLength: 3,
+							})}
+						/>
+						{!!errors.image && <p className="d-block invalid-feedback">Image url is incorrect</p>}
+					</div>
+				)}
 				<div className="mb-3">
-					<label htmlFor="inputPassword" className="form-label text-body-tertiary">
+					<label htmlFor="inputPassword" className="form-label">
 						Password
 					</label>
 					<input
 						type="password"
-						className={'form-control ' + (!!errors.password && 'is-invalid')}
+						className={'form-control text-body-tertiary ' + (!!errors.password && 'is-invalid')}
 						id="inputPassword"
 						placeholder="Password"
 						{...register('password', { required: true, minLength: 6, maxLength: 40 })}
@@ -102,12 +102,12 @@ export default function SignUp(data) {
 					{!!errors.password && <p className="d-block invalid-feedback">Password is incorrect</p>}
 				</div>
 				<div className="mb-3">
-					<label htmlFor="inputPasswordR" className="form-label text-body-tertiary">
+					<label htmlFor="inputPasswordR" className="form-label">
 						Password
 					</label>
 					<input
 						type="password"
-						className={'form-control ' + (!!errors.password && 'is-invalid')}
+						className={'form-control text-body-tertiary ' + (!!errors.password && 'is-invalid')}
 						id="inputPasswordR"
 						placeholder="Password"
 						{...register('passwordR', { required: true, minLength: 6, maxLength: 40 })}
@@ -121,12 +121,12 @@ export default function SignUp(data) {
 				{!edit && (
 					<div className="mb-3">
 						<input
-							className="form-check-input"
+							className="form-check-input text-body-tertiary "
 							type="checkbox"
 							{...register('check', { required: true })}
 							id="inputCheck"
 						/>
-						<label className="form-check-label" htmlFor="inputCheck" style={{ paddingLeft: '1rem' }}>
+						<label className="form-check-label text-body-tertiary" htmlFor="inputCheck" style={{ paddingLeft: '1rem' }}>
 							I agree to the processing of my personal information
 						</label>
 						{!!errors.check && <p className="d-block invalid-feedback">Must be checked</p>}

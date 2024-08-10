@@ -64,7 +64,7 @@ export function postRateArticle() {
 export function loginUser(user) {
 	const options = {
 		method: 'POST',
-		body: JSON.stringify({'user': user})
+		body: JSON.stringify({ user: user }),
 	};
 	console.log('loginUser', options);
 	return fetch('https://blog.kata.academy/api/users/login', options)
@@ -74,7 +74,7 @@ export function loginUser(user) {
 export function registerUser(user) {
 	const options = {
 		method: 'POST',
-		body: JSON.stringify({'user': user})
+		body: JSON.stringify({ user: user }),
 	};
 	console.log('registerUser', options);
 	return fetch('https://blog.kata.academy/api/users', options)

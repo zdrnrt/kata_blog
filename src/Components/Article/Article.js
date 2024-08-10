@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link, useRouteMatch, useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 import Markdown from 'react-markdown';
 
@@ -9,6 +9,7 @@ import './Article.scss';
 export default function Article(el) {
 	const user = useContext(Context);
 	const { data, single } = el;
+	
 	// console.log('article', data, single);
 	let tags = data.tagList.map((el, i) => (
 		<span key={i} className="tags__item rounded-1">
@@ -17,8 +18,8 @@ export default function Article(el) {
 	));
 	return (
 		<article className="article p-4 bg-body">
-			<header className="row">
-				<div className="col-md-8">
+			<header className="row align-items-start">
+				<div className="col-md-9">
 					<div className="article__title d-inline-flex justify-content-start align-items-center flex-grow-1">
 						<h2 className="m-0">
 							{!single ? (
@@ -29,12 +30,11 @@ export default function Article(el) {
 								data.title
 							)}
 						</h2>
-						<button
-							type="button"
+						<span
 							className={
 								data.favorited
-									? 'btn flex-shrink-0 article__favorite favorite favorite--active'
-									: 'btn flex-shrink-0 article__favorite favorite'
+									? 'flex-shrink-0 article__favorite favorite favorite--active'
+									: 'flex-shrink-0 article__favorite favorite'
 							}
 							disabled={user.profile ? false : true}
 						>
@@ -47,11 +47,11 @@ export default function Article(el) {
 								<path d="M8 2.56911C7.26154 1.33835 6.03077 0.476807 4.55385 0.476807C2.46154 0.476807 0.861542 2.07681 0.861542 4.16911C0.861542 8.23065 3.07693 8.84604 8 13.523C12.9231 8.84604 15.1385 8.23065 15.1385 4.16911C15.1385 2.07681 13.5385 0.476807 11.4462 0.476807C9.96923 0.476807 8.73846 1.33835 8 2.56911Z" />
 							</svg>
 							{data.favoritesCount}
-						</button>
+						</span>
 					</div>
 					<div className="article__tags tags">{tags}</div>
 				</div>
-				<div className="col-md-4 author d-inline-flex justify-content-end align-items-center">
+				<div className="col-md-3 author d-inline-flex justify-content-end align-items-center">
 					<div>
 						<div className="author__name">{data.author.username}</div>
 						<div className="author__date">{format(data.createdAt, 'MMM ee, yyyy')}</div>
@@ -72,7 +72,7 @@ export default function Article(el) {
 					</div>
 				)}
 				{single && (
-					<div className="col-md-12">
+					<div className="col-md-12 article__content">
 						<Markdown>{data.body}</Markdown>
 					</div>
 				)}

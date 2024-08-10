@@ -15,18 +15,17 @@ export default function SignIn() {
 	} = useForm();
 	const onSubmit = (data) => {
 		console.log('onSubmit data', data);
-		API.loginUser(data)
-			.then((response) => {
-				console.log('API.loginUser', response);
-				if (response.errors) {
-					setError('email', response.errors.message )
-				}
-			})
+		API.loginUser(data).then((response) => {
+			console.log('API.loginUser', response);
+			if (response.errors) {
+				setError('email', response.errors.message);
+			}
+		});
 	};
 
 	return (
 		<div className="col-md-6 m-auto p-3 bg-white">
-			<h1 className="text-center">Sign In</h1>
+			<h1 className="mb-2 text-center fs-4">Sign In</h1>
 			<form
 				onSubmit={handleSubmit(onSubmit)}
 				onError={() => {
@@ -34,12 +33,12 @@ export default function SignIn() {
 				}}
 			>
 				<div className="mb-3">
-					<label htmlFor="inputEmail" className="form-label text-body-tertiary">
+					<label htmlFor="inputEmail" className="form-label">
 						Email address
 					</label>
 					<input
 						type="email"
-						className={'form-control ' + (!!errors.email && 'is-invalid')}
+						className={'form-control text-body-tertiary ' + (!!errors.email && 'is-invalid')}
 						id="inputEmail"
 						placeholder="Email address"
 						// Value="testtesttest@m.ee"
@@ -50,15 +49,19 @@ export default function SignIn() {
 							maxLength: 20,
 						})}
 					/>
-					{!!errors.email && <p className="d-block invalid-feedback">{errors.email.message || 'Email address is incorrect'}</p>}
+					{!!errors.email && (
+						<p className="d-block invalid-feedback">
+							{errors.email.message || 'Email address is incorrect'}
+						</p>
+					)}
 				</div>
 				<div className="mb-3">
-					<label htmlFor="inputPassword" className="form-label text-body-tertiary">
+					<label htmlFor="inputPassword" className="form-label">
 						Password
 					</label>
 					<input
 						type="password"
-						className={'form-control ' + (!!errors.password && 'is-invalid')}
+						className={'form-control text-body-tertiary ' + (!!errors.password && 'is-invalid')}
 						id="inputPassword"
 						placeholder="Password"
 						// value="123123123"

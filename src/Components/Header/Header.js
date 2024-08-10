@@ -20,7 +20,7 @@ export default function Header(props) {
 							Realworld Blog
 						</Link>
 					</h1>
-					{!!data.profile ? <ProfileInfo profile={data.profile} action={data.loginProfile} /> : <SignLinks />}
+					{!!data.profile ? <ProfileInfo profile={data.profile.user} action={data.loginProfile} /> : <SignLinks />}
 				</div>
 			</div>
 		</header>
@@ -34,8 +34,8 @@ function ProfileInfo(props) {
 				Create article
 			</Link>
 			<Link to="/profile" type="button" className="btn profile lh-1">
-				<span className="profile__name">{props.profile?.username}</span>
-				<img src={props.profile?.image} width="36" height="36" className="profile__pic" />
+				<span className="profile__name">{props.profile.username}</span>
+				<img src={props.profile?.image || 'https://static.productionready.io/images/smiley-cyrus.jpg'} width="36" height="36" className="profile__pic" />
 			</Link>
 			<button type="button" className="btn btn-outline-secondary" onClick={() => props.action(null)}>
 				Log Out

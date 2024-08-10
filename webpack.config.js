@@ -10,6 +10,7 @@ module.exports = {
 		filename: 'main.[contenthash].js',
 		path: path.resolve(__dirname, 'app/'),
 		assetModuleFilename: path.join('images', '[name].[contenthash][ext]'),
+		publicPath: '/'
 	},
 	module: {
 		parser: {
