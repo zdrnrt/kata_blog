@@ -4,10 +4,11 @@ import Context from '../Context/Context';
 import './Header.scss';
 
 export default function Header(props) {
-	const data = useContext(Context);
+	const {profile, changeProfile} = useContext(Context);
+	console.log('header', profile, changeProfile);
 	let controls;
-	if (!!data.profile) {
-		controls = <ProfileInfo profile={data.profile} action={data.loginProfile} />;
+	if (!!profile) {
+		controls = <ProfileInfo profile={profile} action={changeProfile} />;
 	} else {
 		controls = <SignLinks />;
 	}
@@ -20,8 +21,8 @@ export default function Header(props) {
 							Realworld Blog
 						</Link>
 					</h1>
-					{!!data.profile ? (
-						<ProfileInfo profile={data.profile.user} action={data.loginProfile} />
+					{!!profile ? (
+						<ProfileInfo profile={profile.user} action={changeProfile} />
 					) : (
 						<SignLinks />
 					)}

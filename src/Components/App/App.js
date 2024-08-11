@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, useParams } from 'react-router-dom';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './App.scss';
 
 import Routing from '../Routing';
-
 import Header from '../Header/Header';
 import Provider from '../Context/Provider';
 import SignIn from '../Sign/In/SignIn';
@@ -18,6 +16,7 @@ function App() {
 		offset: 0,
 		limit: 20,
 	};
+	
 	return (
 		<Provider>
 			<Router>

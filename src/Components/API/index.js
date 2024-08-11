@@ -22,7 +22,7 @@ export function getArticle(slug) {
 }
 
 export function postArticle(request) {
-	console.log('postArticle');
+	console.log('postArticle', request);
 	const options = {
 		method: 'POST',
 		Authorization: request.api_key,
@@ -67,7 +67,11 @@ export function postRateArticle() {
 export function loginUser(user) {
 	const options = {
 		method: 'POST',
-		body: JSON.stringify({ user: user }),
+		headers: {
+			'Content-Type': 'application/json',
+			'Content-Length': JSON.stringify(user).length.toString(),
+		},
+		body: JSON.stringify({ ...user }),
 	};
 	console.log('loginUser', options);
 	return fetch(API_BASE + 'users/login', options)
@@ -77,12 +81,16 @@ export function loginUser(user) {
 export function registerUser(user) {
 	const options = {
 		method: 'POST',
-		body: JSON.stringify({ user: user }),
+		headers: {
+			'Content-Type': 'application/json',
+			'Content-Length': JSON.stringify(user).length.toString(),
+		},
+		body: JSON.stringify(user)
 	};
 	console.log('registerUser', options);
 	return fetch(API_BASE + 'users', options)
 		.then((response) => response.json())
-		.catch((error) => ({ error: error }));
+		// .catch((error) => ({ error: error }));
 }
 export function updateUser() {
 	console.log('registerUser');

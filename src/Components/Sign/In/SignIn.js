@@ -1,26 +1,37 @@
-import React from 'react';
-import { useForm, setError } from 'react-hook-form';
+import React, { useContext } from 'react';
+import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
-import Provider from '../../Context/Provider';
 import * as API from '../../API';
+import Context from '../../Context/Context';
+
 
 export default function SignIn() {
-	console.log(API);
+	const context = useContext(Context);
 	const {
 		register,
 		formState: { errors },
 		handleSubmit,
 		setError,
 	} = useForm();
+
 	const onSubmit = (data) => {
-		console.log('onSubmit data', data);
-		API.loginUser(data).then((response) => {
-			console.log('API.loginUser', response);
-			if (response.errors) {
-				setError('email', response.errors.message);
-			}
-		});
+		console.log('onSubmit data', data, {user: data});
+		API.loginUser({ user: data })
+			.then((response) => {
+				if (response.errors) {
+					for (let elem in response.errors){
+						setError(elem, { message: `${elem}: ${response.errors[elem]}` });
+					}
+					if (response.errors['email or password']) {
+						setError('email', { message: response.errors['email or password'] });
+						setError('password', { message: response.errors['email or password'] });
+					} 
+					// console.log(response.errors);
+				} else {
+					context.changeProfile(response);
+				}
+			});
 	};
 
 	return (
@@ -41,7 +52,7 @@ export default function SignIn() {
 						className={'form-control text-body-tertiary ' + (!!errors.email && 'is-invalid')}
 						id="inputEmail"
 						placeholder="Email address"
-						// Value="testtesttest@m.ee"
+						defaultValue="testtesttest@m.ee"
 						{...register('email', {
 							required: true,
 							pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -49,11 +60,7 @@ export default function SignIn() {
 							maxLength: 20,
 						})}
 					/>
-					{!!errors.email && (
-						<p className="d-block invalid-feedback">
-							{errors.email.message || 'Email address is incorrect'}
-						</p>
-					)}
+					{!!errors.email && ( <p className="d-block invalid-feedback">Email address is incorrect</p> )}
 				</div>
 				<div className="mb-3">
 					<label htmlFor="inputPassword" className="form-label">
@@ -64,7 +71,7 @@ export default function SignIn() {
 						className={'form-control text-body-tertiary ' + (!!errors.password && 'is-invalid')}
 						id="inputPassword"
 						placeholder="Password"
-						// value="123123123"
+						defaultValue="123123123"
 						{...register('password', { required: true, minLength: 6, maxLength: 40 })}
 					/>
 					{!!errors.password && <p className="d-block invalid-feedback">Password is incorrect</p>}
@@ -72,7 +79,7 @@ export default function SignIn() {
 				<button className="w-100 btn btn-lg btn-primary">Login</button>
 			</form>
 			<p className="pt-2 text-center fs-8 text-body-tertiary">
-				Don’t have an account? <Link to="/sign-up">Sign Up</Link>.
+				Don't have an account? <Link to="/sign-up">Sign Up</Link>.
 			</p>
 		</div>
 	);
