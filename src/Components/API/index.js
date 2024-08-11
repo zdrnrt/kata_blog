@@ -1,8 +1,11 @@
-import React, { useEffect } from 'react';
+const API_BASE = 'https://blog.kata.academy/api/';
 
 export function getArticleList(request) {
-	console.log('getArticleList');
-	return fetch('https://blog.kata.academy/api/articles/?' + request)
+	let url = new URL(API_BASE + 'articles/');
+	for (let elem in request) {
+		url.searchParams.set(elem, request[elem]);
+	}
+	return fetch(url.href)
 		.then((response) => response.json())
 		.catch((error) => {
 			error: error;
@@ -11,7 +14,7 @@ export function getArticleList(request) {
 
 export function getArticle(slug) {
 	console.log('getArticleSingle');
-	return fetch('https://blog.kata.academy/api/articles/' + slug)
+	return fetch(API_BASE + 'articles/' + slug)
 		.then((response) => response.json())
 		.catch((error) => {
 			error: error;
@@ -25,7 +28,7 @@ export function postArticle(request) {
 		Authorization: request.api_key,
 		body: request.body,
 	};
-	return fetch('https://blog.kata.academy/api/articles/', options)
+	return fetch(API_BASE + 'articles/', options)
 		.then((response) => response.json())
 		.catch((error) => {
 			error: error;
@@ -37,7 +40,7 @@ export function putArticle() {
 	const options = {
 		method: 'PUT',
 	};
-	return fetch('https://blog.kata.academy/api/articles/' + slug, options)
+	return fetch(API_BASE + 'articles/' + slug, options)
 		.then((response) => response.json())
 		.catch((error) => {
 			error: error;
@@ -50,7 +53,7 @@ export function deleteArticle(slug) {
 	const options = {
 		method: 'DELETE',
 	};
-	return fetch('https://blog.kata.academy/api/articles/' + slug, options)
+	return fetch(API_BASE + 'articles/' + slug, options)
 		.then((response) => response.json())
 		.catch((error) => {
 			error: error;
@@ -67,7 +70,7 @@ export function loginUser(user) {
 		body: JSON.stringify({ user: user }),
 	};
 	console.log('loginUser', options);
-	return fetch('https://blog.kata.academy/api/users/login', options)
+	return fetch(API_BASE + 'users/login', options)
 		.then((response) => response.json())
 		.catch((error) => ({ error: error }));
 }
@@ -77,7 +80,7 @@ export function registerUser(user) {
 		body: JSON.stringify({ user: user }),
 	};
 	console.log('registerUser', options);
-	return fetch('https://blog.kata.academy/api/users', options)
+	return fetch(API_BASE + 'users', options)
 		.then((response) => response.json())
 		.catch((error) => ({ error: error }));
 }
@@ -87,7 +90,7 @@ export function updateUser() {
 		method: 'PUT',
 		body: user,
 	};
-	return fetch('https://blog.kata.academy/api/user', options)
+	return fetch(API_BASE + 'user', options)
 		.then((response) => response.json())
 		.catch((error) => {
 			error: error;

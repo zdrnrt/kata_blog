@@ -175,7 +175,12 @@ export default function FormArticle({ props }) {
 					{tagList}
 					<div className="row tag">
 						<div className="col-md-5">
-							<input className="form-control text-body-tertiary" placeholder="tag" name="tag" {...register('tag')} />
+							<input
+								className="form-control text-body-tertiary"
+								placeholder="tag"
+								name="tag"
+								{...register('tag')}
+							/>
 						</div>
 						{/* <div className='col-md-2'><button className='btn btn-outline-danger w-100' type='button'>Delete</button></div> */}
 						<div className="col-md-2">

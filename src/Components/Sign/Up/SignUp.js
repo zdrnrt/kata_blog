@@ -126,7 +126,11 @@ export default function SignUp(data) {
 							{...register('check', { required: true })}
 							id="inputCheck"
 						/>
-						<label className="form-check-label text-body-tertiary" htmlFor="inputCheck" style={{ paddingLeft: '1rem' }}>
+						<label
+							className="form-check-label text-body-tertiary"
+							htmlFor="inputCheck"
+							style={{ paddingLeft: '1rem' }}
+						>
 							I agree to the processing of my personal information
 						</label>
 						{!!errors.check && <p className="d-block invalid-feedback">Must be checked</p>}

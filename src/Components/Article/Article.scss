@@ -7,6 +7,7 @@
 		margin-left: 10px;
 	}
 	&__title {
+		word-break: break-word;
 	}
 	&__link {
 		text-decoration: none;
@@ -16,7 +17,11 @@
 			margin-right: 10px;
 		}
 	}
-	&__content{
+	&__tags {
+		line-height: 32px;
+	}
+	&__content {
+		word-wrap: break-word;
 		img {
 			width: 100%;
 		}
@@ -40,10 +45,14 @@
 }
 .tags {
 	&__item {
+		display: inline-block;
 		margin-right: 8px;
 		padding: 2px 5px;
+		max-width: 100%;
 		border: 1px solid rgba(0, 0, 0, 0.5);
 		font-size: 12px;
+		line-height: 18px;
+		word-wrap: break-word;
 		&:last-child {
 			margin-right: 0;
 		}

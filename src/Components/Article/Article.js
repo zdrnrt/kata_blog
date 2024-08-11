@@ -9,7 +9,7 @@ import './Article.scss';
 export default function Article(el) {
 	const user = useContext(Context);
 	const { data, single } = el;
-	
+
 	// console.log('article', data, single);
 	let tags = data.tagList.map((el, i) => (
 		<span key={i} className="tags__item rounded-1">
@@ -51,7 +51,7 @@ export default function Article(el) {
 					</div>
 					<div className="article__tags tags">{tags}</div>
 				</div>
-				<div className="col-md-3 author d-inline-flex justify-content-end align-items-center">
+				<div className="col-md-3 author d-inline-flex justify-content-start justify-content-md-end align-items-center">
 					<div>
 						<div className="author__name">{data.author.username}</div>
 						<div className="author__date">{format(data.createdAt, 'MMM ee, yyyy')}</div>

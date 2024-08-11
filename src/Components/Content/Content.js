@@ -4,9 +4,8 @@ import Article from '../Article';
 import Pagintaion from '../Pagination';
 
 function Content({ props }) {
-
 	const { articleListData, single, articleRequest, changeArticleRequest } = props;
-	// console.log('Content', articleListData, single);
+
 	const spinner = (
 		<div className="mt-3 mb-3 text-center">
 			<div className="spinner-border text-primary" role="status" style={{ width: '5rem', height: '5rem' }}>
@@ -15,22 +14,23 @@ function Content({ props }) {
 		</div>
 	);
 
-	let content = spinner, paginationData = null;
+	let content = spinner,
+		paginationData = null;
 
 	if (articleListData?.articles) {
 		content = articleListData.articles.map((el, i) => <Article key={i} data={el} single={single} />);
 	}
 
-	if (!single && articleListData?.articlesCount > articleListData?.articles.length) {
+	if (!single && articleListData?.articlesCount > articleRequest.limit) {
 		paginationData = {
-			count: Math.ceil(articleListData.articlesCount / articleListData.articles.length),
-			active: articleRequest.offset ? Math.ceil(articleRequest.offset / articleListData.articles.length) : 1
+			count: Math.floor(articleListData.articlesCount / articleRequest.limit),
+			active: articleRequest.offset ? articleRequest.offset / articleRequest.limit : 1,
 		};
 	}
 
 	return (
 		<div className="content">
-			{!!articleListData ? content : spinner}
+			{content}
 			{paginationData && <Pagintaion props={paginationData} action={changeArticleRequest} />}
 		</div>
 	);
