@@ -3,12 +3,11 @@ import { Link } from 'react-router-dom';
 import Context from '../Context/Context';
 import './Header.scss';
 
-export default function Header(props) {
-	const {profile, changeProfile} = useContext(Context);
-	console.log('header', profile, changeProfile);
+export default function Header() {
+	const { user, changeUser } = useContext(Context);
 	let controls;
-	if (!!profile) {
-		controls = <ProfileInfo profile={profile} action={changeProfile} />;
+	if (!!user) {
+		controls = <ProfileInfo user={user} action={changeUser} />;
 	} else {
 		controls = <SignLinks />;
 	}
@@ -21,11 +20,7 @@ export default function Header(props) {
 							Realworld Blog
 						</Link>
 					</h1>
-					{!!profile ? (
-						<ProfileInfo profile={profile.user} action={changeProfile} />
-					) : (
-						<SignLinks />
-					)}
+					{!!user ? <ProfileInfo user={user} action={changeUser} /> : <SignLinks />}
 				</div>
 			</div>
 		</header>
@@ -33,21 +28,22 @@ export default function Header(props) {
 }
 
 function ProfileInfo(props) {
+	const { user, action } = props;
 	return (
 		<div className="col-6 text-end">
 			<Link to="/new-article" className="btn btn-sm btn-outline-success">
 				Create article
 			</Link>
 			<Link to="/profile" type="button" className="btn profile lh-1">
-				<span className="profile__name">{props.profile.username}</span>
+				<span className="profile__name">{user.username}</span>
 				<img
-					src={props.profile?.image || 'https://static.productionready.io/images/smiley-cyrus.jpg'}
+					src={user?.image || 'https://static.productionready.io/images/smiley-cyrus.jpg'}
 					width="36"
 					height="36"
 					className="profile__pic"
 				/>
 			</Link>
-			<button type="button" className="btn btn-outline-secondary" onClick={() => props.action(null)}>
+			<button type="button" className="btn btn-outline-secondary" onClick={() => action(null)}>
 				Log Out
 			</button>
 		</div>

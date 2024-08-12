@@ -21,13 +21,15 @@ export function getArticle(slug) {
 		});
 }
 
-export function postArticle(request) {
+export function postArticle(request, token) {
 	console.log('postArticle', request);
 	const options = {
 		method: 'POST',
-		Authorization: request.api_key,
+		'Content-Type': 'application/json',
+		'Content-Length': JSON.stringify(user).length.toString(),
 		body: request.body,
 	};
+	token && (options['headers']['Authorization'] = `Bearer ${token}`);
 	return fetch(API_BASE + 'articles/', options)
 		.then((response) => response.json())
 		.catch((error) => {
@@ -35,10 +37,14 @@ export function postArticle(request) {
 		});
 }
 
-export function putArticle() {
+export function putArticle(slug, data, token) {
 	console.log('putArticle');
 	const options = {
 		method: 'PUT',
+		'Content-Type': 'application/json',
+		'Content-Length': JSON.stringify(user).length.toString(),
+		Authorization: `Bearer ${token}`,
+		body: JSON.stringify(data),
 	};
 	return fetch(API_BASE + 'articles/' + slug, options)
 		.then((response) => response.json())
@@ -47,11 +53,15 @@ export function putArticle() {
 		});
 }
 
-export function deleteArticle(slug) {
+export function deleteArticle(slug, data, token) {
 	console.log('deleteArticle');
 	///api/articles/{slug} \
 	const options = {
 		method: 'DELETE',
+		'Content-Type': 'application/json',
+		'Content-Length': JSON.stringify(user).length.toString(),
+		Authorization: `Bearer ${token}`,
+		body: JSON.stringify(data),
 	};
 	return fetch(API_BASE + 'articles/' + slug, options)
 		.then((response) => response.json())
@@ -85,19 +95,23 @@ export function registerUser(user) {
 			'Content-Type': 'application/json',
 			'Content-Length': JSON.stringify(user).length.toString(),
 		},
-		body: JSON.stringify(user)
+		body: JSON.stringify({ ...user }),
 	};
 	console.log('registerUser', options);
-	return fetch(API_BASE + 'users', options)
-		.then((response) => response.json())
-		// .catch((error) => ({ error: error }));
+	return fetch(API_BASE + 'users', options).then((response) => response.json());
+	// .catch((error) => ({ error: error }));
 }
-export function updateUser() {
-	console.log('registerUser');
+export function updateUser(user, token) {
+	console.log('registerUser', user, token);
 	const options = {
 		method: 'PUT',
-		body: user,
+		headers: {
+			'Content-Type': 'application/json',
+			'Content-Length': JSON.stringify(user).length.toString(),
+		},
+		body: JSON.stringify({ ...user }),
 	};
+	token && (options['headers']['Authorization'] = `Bearer ${token}`);
 	return fetch(API_BASE + 'user', options)
 		.then((response) => response.json())
 		.catch((error) => {

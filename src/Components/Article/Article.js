@@ -10,7 +10,7 @@ export default function Article(el) {
 	const user = useContext(Context);
 	const { data, single } = el;
 
-	// console.log('article', data, single);
+	console.log('article', user);
 	let tags = data.tagList.map((el, i) => (
 		<span key={i} className="tags__item rounded-1">
 			{el}
@@ -36,7 +36,7 @@ export default function Article(el) {
 									? 'flex-shrink-0 article__favorite favorite favorite--active'
 									: 'flex-shrink-0 article__favorite favorite'
 							}
-							disabled={user.profile ? false : true}
+							// disabled={user ? false : true}
 						>
 							<svg
 								className="favorite__icon"
@@ -63,7 +63,7 @@ export default function Article(el) {
 				<div className="col-md-8 article__content">
 					<p>{data.description}</p>
 				</div>
-				{!!user.profile && single && (
+				{user && single && (
 					<div className="col-md-4 text-end article__controls">
 						<button className="btn btn-outline-danger">Delete</button>
 						<Link to={`/articles/${data.slug}/edit`} className="btn btn-outline-success">

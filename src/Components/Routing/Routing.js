@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Route, useParams, Switch } from 'react-router-dom';
 
+import Context from '../Context/Context';
 import Content from '../Content';
 import SignIn from '../Sign/In/SignIn';
 import SignUp from '../Sign/Up/SignUp';
@@ -10,6 +11,8 @@ import FormArticle from '../FormArticle';
 
 function Routing({ props }) {
 	// let {params} = useParams();
+	const { user } = useContext(Context);
+	console.log('Routing user', user);
 	let { match, location, history, request } = props;
 
 	let [articleRequest, changeArticleRequest] = useState(request);
@@ -37,7 +40,6 @@ function Routing({ props }) {
 		}
 	} else {
 		// проверка на выход из диапазона
-
 		if (match.params.number) {
 			if (articleRequest.limit * match.params.number != articleRequest.offset) {
 				changeArticleRequest((data) => {
@@ -56,6 +58,7 @@ function Routing({ props }) {
 			});
 		}
 	}
+
 	useEffect(() => {
 		API.getArticleList(articleRequest)
 			.then((response) => {
@@ -106,6 +109,9 @@ function Routing({ props }) {
 					/>
 				)}
 			></Route>
+			<Route path="/sign-in" exact={true} render={(user) => <SignIn props={{ user: !!user }} />}></Route>
+			<Route path="/sign-up" exact={true} render={({ match }) => <SignUp props={{ match }} />}></Route>
+			<Route path="/profile" exact={true} render={({ profile }) => <SignUp props={{ profile }} />}></Route>
 		</Switch>
 	);
 }

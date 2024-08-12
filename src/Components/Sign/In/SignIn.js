@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 import * as API from '../../API';
 import Context from '../../Context/Context';
 
-
-export default function SignIn() {
+export default function SignIn({ props }) {
 	const context = useContext(Context);
 	const {
 		register,
@@ -16,23 +15,25 @@ export default function SignIn() {
 	} = useForm();
 
 	const onSubmit = (data) => {
-		console.log('onSubmit data', data, {user: data});
-		API.loginUser({ user: data })
-			.then((response) => {
-				if (response.errors) {
-					for (let elem in response.errors){
-						setError(elem, { message: `${elem}: ${response.errors[elem]}` });
-					}
-					if (response.errors['email or password']) {
-						setError('email', { message: response.errors['email or password'] });
-						setError('password', { message: response.errors['email or password'] });
-					} 
-					// console.log(response.errors);
-				} else {
-					context.changeProfile(response);
+		console.log('onSubmit data', data, { user: data });
+		API.loginUser({ user: data }).then((response) => {
+			if (response.errors) {
+				for (let elem in response.errors) {
+					setError(elem, { message: `${elem}: ${response.errors[elem]}` });
 				}
-			});
+				if (response.errors['email or password']) {
+					setError('email', { message: response.errors['email or password'] });
+					setError('password', { message: response.errors['email or password'] });
+				}
+			} else {
+				context.changeUser(response.user);
+			}
+		});
 	};
+
+	if (!!context.user) {
+		return <Redirect to="/" />;
+	}
 
 	return (
 		<div className="col-md-6 m-auto p-3 bg-white">
@@ -60,7 +61,7 @@ export default function SignIn() {
 							maxLength: 20,
 						})}
 					/>
-					{!!errors.email && ( <p className="d-block invalid-feedback">Email address is incorrect</p> )}
+					{!!errors.email && <p className="d-block invalid-feedback">Email address is incorrect</p>}
 				</div>
 				<div className="mb-3">
 					<label htmlFor="inputPassword" className="form-label">

@@ -16,7 +16,7 @@ function App() {
 		offset: 0,
 		limit: 20,
 	};
-	
+
 	return (
 		<Provider>
 			<Router>
@@ -25,26 +25,19 @@ function App() {
 					<main className="app__main">
 						<div className="container">
 							<div className="col-md-9 m-auto pt-5 pb-5">
-								{/* <Route
-									path={["/articles/:slug"]}
+								<Route
+									path={[
+										'/',
+										'/articles/',
+										'/articles/number/:number',
+										'/articles/:slug',
+										'/articles/:slug/edit',
+									]}
 									exact={true}
 									render={({ match, location, history }) => (
 										<Routing
 											props={{
-												match,
-												location,
-												history,
-												single: true,
-											}}
-										/>
-									)}
-								></Route> */}
-								<Route
-									path={['/new-article']}
-									exact={true}
-									render={({ match, location, history }) => (
-										<FormArticle
-											props={{
+												request,
 												match,
 												location,
 												history,
@@ -53,18 +46,11 @@ function App() {
 									)}
 								></Route>
 								<Route
-									path={[
-										'/',
-										'/articles/',
-										'/articles/number/:number',
-										'/articles/:slug',
-										// '/articles/:slug/edit',
-									]}
+									path={['/new-article']}
 									exact={true}
 									render={({ match, location, history }) => (
-										<Routing
+										<FormArticle
 											props={{
-												request,
 												match,
 												location,
 												history,

@@ -2,17 +2,16 @@ import React, { useState, useContext, useEffect } from 'react';
 import Context from './Context';
 
 const ContextProvider = ({ children }) => {
+	const getInitialState = () => (sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')) : null);
 
-	const getInitialState = () => sessionStorage.getItem("profile") ? JSON.parse(sessionStorage.getItem("profile")) : null;
+	const [user, setUser] = useState(getInitialState);
 
-	const [profile, setProfile] = useState(getInitialState);
-
-	const changeProfile = (data) => {
-		sessionStorage.setItem('profile', JSON.stringify(data));
-		setProfile(data);
+	const changeUser = (data) => {
+		sessionStorage.setItem('user', JSON.stringify(data));
+		setUser(data);
 	};
 
-	return <Context.Provider value={{ profile, changeProfile }}>{children}</Context.Provider>;
+	return <Context.Provider value={{ user, changeUser }}>{children}</Context.Provider>;
 };
 
 export default ContextProvider;
