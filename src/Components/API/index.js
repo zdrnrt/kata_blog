@@ -59,23 +59,25 @@ export function putArticle({ slug, data, token }) {
 		});
 }
 
-export function deleteArticle({ slug, data, token }) {
+export function deleteArticle({ slug, token }) {
 	console.log('deleteArticle');
 	///api/articles/{slug} \
 	const options = {
 		method: 'DELETE',
 		headers: {
 			'Content-Type': 'application/json',
-			'Content-Length': JSON.stringify(user).length.toString(),
 			Authorization: `Bearer ${token}`,
 		},
-		body: JSON.stringify(data),
 	};
 	return fetch(API_BASE + 'articles/' + slug, options)
-		.then((response) => response.json())
-		.catch((error) => {
-			error: error;
-		});
+		.then((response) => {
+			if (status.ok) {
+				return response.json();
+			} else {
+				return response.text();
+			}
+		})
+		.catch((error) => ({ error }));
 }
 
 export function postRateArticle() {

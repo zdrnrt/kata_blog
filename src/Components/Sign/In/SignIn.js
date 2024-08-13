@@ -53,7 +53,7 @@ export default function SignIn({ props }) {
 						className={'form-control text-body-tertiary ' + (!!errors.email && 'is-invalid')}
 						id="inputEmail"
 						placeholder="Email address"
-						defaultValue="testtesttest@m.ee"
+						// defaultValue="testtesttest@m.ee"
 						{...register('email', {
 							required: true,
 							pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -72,7 +72,7 @@ export default function SignIn({ props }) {
 						className={'form-control text-body-tertiary ' + (!!errors.password && 'is-invalid')}
 						id="inputPassword"
 						placeholder="Password"
-						defaultValue="123123123"
+						// defaultValue="123123123"
 						{...register('password', { required: true, minLength: 6, maxLength: 40 })}
 					/>
 					{!!errors.password && <p className="d-block invalid-feedback">Password is incorrect</p>}

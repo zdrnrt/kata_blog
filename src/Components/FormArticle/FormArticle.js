@@ -1,12 +1,17 @@
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
-// import Cont
+import { Redirect } from 'react-router-dom';
 
 import Context from '../Context/Context';
 import * as API from '../API';
 
 function FormArticle({ props }) {
+	const { user } = useContext(Context);
+
+	if (!user) {
+		return <Redirect to={match?.params?.slug ? `/articles/${match.params.slug}` : '/'} />;
+	}
+
 	function Tag({ value, number }) {
 		return (
 			<div className="row tag" data-number={number} style={{ marginBlockEnd: '20px' }}>
@@ -72,14 +77,8 @@ function FormArticle({ props }) {
 	);
 
 	let { articleListData, edit, match } = props;
-
-	const { user } = useContext(Context);
 	let tagList = null;
 	let [article, changeArticle] = useState(null);
-
-	// console.log('FormArticle articleListData', articleListData);
-	// console.log('FormArticle edit', edit);
-	// console.log('FormArticle article', article);
 
 	if (article && article.tagList) {
 		tagList = article.tagList.map((el, i) => {
@@ -97,8 +96,6 @@ function FormArticle({ props }) {
 	} = useForm();
 
 	const onSubmit = (data) => {
-		console.log('user', user, user.token);
-		console.log('onSubmit data', data);
 		const sendData = {
 			title: data.title,
 			body: data.body,
@@ -117,6 +114,7 @@ function FormArticle({ props }) {
 				data: sendData,
 			});
 		}
+		location.href = '/';
 	};
 	if (!article && articleListData) {
 		changeArticle(articleListData.articles.find((el) => el.slug == match.params.slug));

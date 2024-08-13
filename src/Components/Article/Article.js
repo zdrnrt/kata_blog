@@ -1,20 +1,48 @@
-import React, { useContext } from 'react';
-import { Link, useRouteMatch, useParams } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link, Redirect } from 'react-router-dom';
 import { format } from 'date-fns';
 import Markdown from 'react-markdown';
+import { Popover } from 'antd';
 
+import * as API from '../API';
 import Context from '../Context/Context';
 import './Article.scss';
 
 export default function Article(el) {
-	const user = useContext(Context);
+	const { user } = useContext(Context);
 	const { data, single } = el;
-	console.log('article', user);
 	let tags = data.tagList.map((el, i) => (
 		<span key={i} className="tags__item rounded-1">
 			{el}
 		</span>
 	));
+	function removeArticle() {
+		console.log('remove');
+		return API.deleteArticle({ token: user.token, slug: data.slug }).then((response) => {
+			console.log(response);
+			location.href = '/';
+		});
+	}
+	const [open, setOpen] = useState(false);
+	const hide = () => {
+		setOpen(false);
+	};
+	const handleOpenChange = (newOpen) => {
+		setOpen(newOpen);
+	};
+	const removePopover = (
+		<div>
+			<p>Are you sure to delete this article?</p>
+			<div className="text-end">
+				<button className="btn btn-outline-dark m-3 mt-0 mb-0" onClick={hide}>
+					No
+				</button>
+				<button className="btn btn-primary" onClick={removeArticle}>
+					Yes
+				</button>
+			</div>
+		</div>
+	);
 	return (
 		<article className="article p-4 bg-body">
 			<header className="row align-items-start">
@@ -64,7 +92,15 @@ export default function Article(el) {
 				</div>
 				{user && single && (
 					<div className="col-md-4 text-end article__controls">
-						<button className="btn btn-outline-danger">Delete</button>
+						<Popover
+							placement="right"
+							content={removePopover}
+							trigger="click"
+							open={open}
+							onOpenChange={handleOpenChange}
+						>
+							<button className="btn btn-outline-danger">Delete</button>
+						</Popover>
 						<Link to={`/articles/${data.slug}/edit`} className="btn btn-outline-success">
 							Edit
 						</Link>
