@@ -12,7 +12,7 @@ import FormArticle from '../FormArticle';
 function Routing({ props }) {
 	// let {params} = useParams();
 	const { user } = useContext(Context);
-	console.log('Routing user', user);
+	console.log('Routing', props);
 	let { match, location, history, request } = props;
 
 	let [articleRequest, changeArticleRequest] = useState(request);
@@ -94,13 +94,12 @@ function Routing({ props }) {
 				/>
 			</Route>
 			<Route
-				path="/article/:slug/edit"
+				path="/articles/:slug/edit"
 				exact={true}
 				render={({ match, location, history }) => (
 					<FormArticle
 						props={{
-							articleListData,
-							articleRequest,
+							articleListData: articleData ? { articles: [articleData] } : articleListData,
 							match,
 							location,
 							history,
@@ -109,9 +108,9 @@ function Routing({ props }) {
 					/>
 				)}
 			></Route>
-			<Route path="/sign-in" exact={true} render={(user) => <SignIn props={{ user: !!user }} />}></Route>
+			{/* <Route path="/sign-in" exact={true} render={(user) => <SignIn props={{ user: !!user }} />}></Route>
 			<Route path="/sign-up" exact={true} render={({ match }) => <SignUp props={{ match }} />}></Route>
-			<Route path="/profile" exact={true} render={({ profile }) => <SignUp props={{ profile }} />}></Route>
+			<Route path="/profile" exact={true} render={({ profile }) => <SignUp props={{ profile }} />}></Route> */}
 		</Switch>
 	);
 }

@@ -9,7 +9,6 @@ import './Article.scss';
 export default function Article(el) {
 	const user = useContext(Context);
 	const { data, single } = el;
-
 	console.log('article', user);
 	let tags = data.tagList.map((el, i) => (
 		<span key={i} className="tags__item rounded-1">

@@ -21,13 +21,15 @@ export function getArticle(slug) {
 		});
 }
 
-export function postArticle(request, token) {
+export function postArticle({ data, token }) {
 	console.log('postArticle', request);
 	const options = {
 		method: 'POST',
-		'Content-Type': 'application/json',
-		'Content-Length': JSON.stringify(user).length.toString(),
-		body: request.body,
+		headers: {
+			'Content-Type': 'application/json',
+			'Content-Length': JSON.stringify(data).length.toString(),
+		},
+		body: JSON.stringify({ article: data }),
 	};
 	token && (options['headers']['Authorization'] = `Bearer ${token}`);
 	return fetch(API_BASE + 'articles/', options)
@@ -37,15 +39,19 @@ export function postArticle(request, token) {
 		});
 }
 
-export function putArticle(slug, data, token) {
-	console.log('putArticle');
+export function putArticle({ slug, data, token }) {
+	console.log('putArticle', slug, data, token);
 	const options = {
 		method: 'PUT',
-		'Content-Type': 'application/json',
-		'Content-Length': JSON.stringify(user).length.toString(),
-		Authorization: `Bearer ${token}`,
-		body: JSON.stringify(data),
+		headers: {
+			'Content-Type': 'application/json',
+			'Content-Length': JSON.stringify(data).length.toString(),
+			Authorization: `Bearer ${token}`,
+		},
+		body: JSON.stringify({ article: data }),
 	};
+	// token && (options['headers']['Authorization'] = `Bearer ${token}`);
+
 	return fetch(API_BASE + 'articles/' + slug, options)
 		.then((response) => response.json())
 		.catch((error) => {
@@ -53,14 +59,16 @@ export function putArticle(slug, data, token) {
 		});
 }
 
-export function deleteArticle(slug, data, token) {
+export function deleteArticle({ slug, data, token }) {
 	console.log('deleteArticle');
 	///api/articles/{slug} \
 	const options = {
 		method: 'DELETE',
-		'Content-Type': 'application/json',
-		'Content-Length': JSON.stringify(user).length.toString(),
-		Authorization: `Bearer ${token}`,
+		headers: {
+			'Content-Type': 'application/json',
+			'Content-Length': JSON.stringify(user).length.toString(),
+			Authorization: `Bearer ${token}`,
+		},
 		body: JSON.stringify(data),
 	};
 	return fetch(API_BASE + 'articles/' + slug, options)

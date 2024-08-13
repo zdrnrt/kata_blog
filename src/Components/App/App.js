@@ -17,6 +17,8 @@ function App() {
 		limit: 20,
 	};
 
+	console.log('app');
+
 	return (
 		<Provider>
 			<Router>
