@@ -100,7 +100,9 @@ function FormArticle({ props }) {
 			title: data.title,
 			body: data.body,
 			description: data.description,
+			tags: article.tagList || [],
 		};
+		console.log(sendData);
 		if (edit) {
 			API.putArticle({
 				slug: match.params.slug,
@@ -114,7 +116,7 @@ function FormArticle({ props }) {
 				data: sendData,
 			});
 		}
-		location.href = '/';
+		// location.href = '/';
 	};
 	if (!article && articleListData) {
 		changeArticle(articleListData.articles.find((el) => el.slug == match.params.slug));

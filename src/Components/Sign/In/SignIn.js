@@ -4,7 +4,15 @@ import { Link, Redirect } from 'react-router-dom';
 
 import * as API from '../../API';
 import Context from '../../Context/Context';
-
+/*
+{
+    "username": "etstset",
+    "email": "asdasd@mn.ppp",
+    "password": "123123",
+    "passwordR": "123123",
+    "check": true
+}
+*/
 export default function SignIn({ props }) {
 	const context = useContext(Context);
 	const {

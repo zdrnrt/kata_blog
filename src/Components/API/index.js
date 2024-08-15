@@ -22,16 +22,16 @@ export function getArticle(slug) {
 }
 
 export function postArticle({ data, token }) {
-	console.log('postArticle', request);
+	console.log('postArticle', data);
 	const options = {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 			'Content-Length': JSON.stringify(data).length.toString(),
+			Authorization: `Bearer ${token}`,
 		},
 		body: JSON.stringify({ article: data }),
 	};
-	token && (options['headers']['Authorization'] = `Bearer ${token}`);
 	return fetch(API_BASE + 'articles/', options)
 		.then((response) => response.json())
 		.catch((error) => {
@@ -44,15 +44,15 @@ export function putArticle({ slug, data, token }) {
 	const options = {
 		method: 'PUT',
 		headers: {
-			'Content-Type': 'application/json',
-			'Content-Length': JSON.stringify(data).length.toString(),
+			// 'Content-Type': 'application/json',
+			// 'Content-Length': JSON.stringify(data).length.toString(),
 			Authorization: `Bearer ${token}`,
 		},
 		body: JSON.stringify({ article: data }),
 	};
 	// token && (options['headers']['Authorization'] = `Bearer ${token}`);
 
-	return fetch(API_BASE + 'articles/' + slug, options)
+	fetch(API_BASE + 'articles/' + slug, options)
 		.then((response) => response.json())
 		.catch((error) => {
 			error: error;
